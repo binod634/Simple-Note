@@ -2,4 +2,8 @@
 <resources>
 
     <style name="Theme.SimpleNote" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SplashScreen.MySplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@raw/logo_image</item>
+        <item name="windowSplashScreenBackground">@color/logo_background</item>
+    </style>
 </resources>

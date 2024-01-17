@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +19,7 @@ import com.example.simplenote.ui.theme.SimpleNoteTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContent {
             SimpleNoteTheme {
                 // A surface container using the 'background' color from the theme
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable(route = AppScreen.AddNote.name) {
-                            AddNote(onDismiss = { navController.popBackStack() }) {
+                            AddNote(onDismiss = { navController.popBackStack(route = AppScreen.Home.name, saveState = false, inclusive = false) }) {
                                 /* Do somethings for adding in database */
                             }
                         }

@@ -35,7 +35,15 @@ fun AddNote(onDismiss: () -> Unit, onAdd: () -> Unit) {
         mutableStateOf("")
     }
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text(text = "Add Note", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) }) }
+        topBar = {
+            CenterAlignedTopAppBar(title = {
+                Text(
+                    text = "Add Note",
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            })
+        }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             Column(
