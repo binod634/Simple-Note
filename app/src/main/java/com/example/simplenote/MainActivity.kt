@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.simplenote.appScreens.SimpleNoteScreen
+import com.example.simplenote.appScreens.AddNote
+import com.example.simplenote.appScreens.AppHome
+import com.example.simplenote.appScreens.AppScreen
 import com.example.simplenote.ui.theme.SimpleNoteTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,9 +26,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = SimpleNoteScreen.Home.name ) {
-                        composable(route = SimpleNoteScreen.Home.name) {
-                            AppHome()
+                    NavHost(navController = navController, startDestination = AppScreen.Home.name) {
+                        composable(route = AppScreen.Home.name) {
+                            AppHome {
+                                navController.navigate(AppScreen.AddNote.name)
+                            }
+                        }
+                        composable(route = AppScreen.AddNote.name) {
+                            AddNote(onDismiss = { navController.popBackStack() }) {
+                                /* Do somethings for adding in database */
+                            }
                         }
                     }
                 }

@@ -16,20 +16,18 @@ val PrimaryLightColor = Color(0xFF11C584)
 val SecondaryLightColor = PrimaryLightColor
 val SurfaceLightColor = PrimaryLightColor
 val BackgroundLightColor = Color(0xFFB1FEE2)
+val CardContainerLightColor = Color(0xFF84E2BA)
+val CardContentLightColor = Color(0xFFFFFFFF)
 
-//
-//// Dark Color
-//val PrimaryDarkColor = Color(0xFF06AD71)
-//val SecondaryDarkColor = PrimaryDarkColor
-//val SurfaceDarkColor = PrimaryDarkColor
-//val BackgroundDarkColor = Color(0xFF21493A)
+// Dark Color
+// val PrimaryDarkColor = Color(0xFF06AD71)
+// val SecondaryDarkColor = PrimaryDarkColor
+// val SurfaceDarkColor = PrimaryDarkColor
+// val BackgroundDarkColor = Color(0xFF21493A)
 
 val PrimaryDarkColor = Color(0xFF004D2C)
 val SecondaryDarkColor = PrimaryDarkColor
 val SurfaceDarkColor = PrimaryDarkColor
 val BackgroundDarkColor = Color(0xFF001F12)
-
-
-// fix this afterwards
-val CardContainerColor = Color(0xFF84E2BA)
-val CardContentColor = Color(0xFFFFFFFF)
+val CardContainerDarkColor = Color(0xFF053513)
+val CardContentDarkColor = Color(0xFFFFFFFF)
