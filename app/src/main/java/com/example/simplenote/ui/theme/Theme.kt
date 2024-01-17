@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -19,6 +20,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = PrimaryDarkColor,
     secondary = SecondaryDarkColor,
     surface = SurfaceDarkColor,
+    onSurface = Color.White,
     background = BackgroundDarkColor,
     onPrimaryContainer = CardContentDarkColor,
     primaryContainer = CardContainerDarkColor,
@@ -30,6 +32,7 @@ private val LightColorScheme = lightColorScheme(
     primary = PrimaryLightColor,
     secondary = SecondaryLightColor,
     surface = SurfaceLightColor,
+    onSurface = Color.White,
     background = BackgroundLightColor,
     primaryContainer = CardContainerLightColor,
     onPrimaryContainer = CardContentLightColor
