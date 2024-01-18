@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -25,16 +24,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.simplenote.database.NoteData
 import com.example.simplenote.ui.theme.CardContentLightColor
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppHome(addNote: () -> Unit) {
+fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit) {
+    val noteDataList = noteDataFlowList.collectAsState(initial = emptyList())
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -46,7 +49,7 @@ fun AppHome(addNote: () -> Unit) {
             })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { addNote() }) {
+            FloatingActionButton(onClick = { navAddNote() }) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = null)
             }
         }
@@ -56,8 +59,8 @@ fun AppHome(addNote: () -> Unit) {
                 modifier = Modifier.padding(8.dp)
             ){
                 LazyColumn {
-                    items(10) {
-                        ShowCard()
+                    items(noteDataList.value.size) { it:Int ->
+                        ShowCard(noteDataList.value[it])
                     }
                 }
             }
@@ -66,7 +69,7 @@ fun AppHome(addNote: () -> Unit) {
 }
 
 @Composable
-fun ShowCard() {
+fun ShowCard(noteData: NoteData) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -93,10 +96,10 @@ fun ShowCard() {
                 tint = CardContentLightColor
             )
             Column {
-                Text(text = "Some title", fontWeight = FontWeight.Bold)
+                Text(text = noteData.title, fontWeight = FontWeight.Bold)
                 Row {
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "This is some description")
+                    Text(text = noteData.description)
                 }
             }
         }

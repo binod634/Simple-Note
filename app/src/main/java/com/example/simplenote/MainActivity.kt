@@ -14,10 +14,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.simplenote.appScreens.AddNote
 import com.example.simplenote.appScreens.AppHome
 import com.example.simplenote.appScreens.AppScreen
+import com.example.simplenote.database.MyApplication
+import com.example.simplenote.database.NoteData
 import com.example.simplenote.ui.theme.SimpleNoteTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val viewModel by lazy { AppViewModel((application as MyApplication).db.databaseDao()) }
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
@@ -30,13 +33,26 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = AppScreen.Home.name) {
                         composable(route = AppScreen.Home.name) {
-                            AppHome {
+                            AppHome(
+                                noteDataFlowList = viewModel.noteData
+                            ){
                                 navController.navigate(AppScreen.AddNote.name)
                             }
                         }
                         composable(route = AppScreen.AddNote.name) {
-                            AddNote(onDismiss = { navController.popBackStack(route = AppScreen.Home.name, saveState = false, inclusive = false) }) {
-                                /* Do somethings for adding in database */
+                            AddNote(onDismiss = {
+                                navController.popBackStack(
+                                    route = AppScreen.Home.name,
+                                    saveState = false,
+                                    inclusive = false
+                                )
+                            }) { title, description ->
+                                viewModel.addNote(
+                                    NoteData(
+                                        title = title,
+                                        description = description
+                                    )
+                                )
                             }
                         }
                     }

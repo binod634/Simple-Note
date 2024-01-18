@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNote(onDismiss: () -> Unit, onAdd: () -> Unit) {
+fun AddNote(onDismiss: () -> Unit, onAdd: (String,String) -> Unit) {
     val titleData = remember {
         mutableStateOf("")
     }
@@ -72,7 +72,7 @@ fun AddNote(onDismiss: () -> Unit, onAdd: () -> Unit) {
                         Text(text = "Dismiss", color = MaterialTheme.colorScheme.onSurface)
                     }
                     Spacer(modifier = Modifier.width(32.dp))
-                    Button(onClick = { onAdd() }) {
+                    Button(onClick = { onAdd(titleData.value,descriptionData.value) }) {
                         Text(text = "Add", color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
@@ -84,5 +84,5 @@ fun AddNote(onDismiss: () -> Unit, onAdd: () -> Unit) {
 @Preview(showBackground = false)
 @Composable
 fun ShowAddNote() {
-    AddNote(onDismiss = { /* Null */ }, onAdd = { /* null */ })
+    AddNote(onDismiss = { /* Null */ }, onAdd = { title,description ->  /* null */ })
 }

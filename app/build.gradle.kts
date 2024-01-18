@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -69,6 +70,9 @@ dependencies {
 
     // custom implementation
     implementation("androidx.navigation:navigation-compose:2.7.6")
-
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    //noinspection KaptUsageInsteadOfKsp
+    kapt("androidx.room:room-compiler:2.6.1")
+
 }
