@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit) {
+fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit, showNoteInfo: (NoteData) -> Unit) {
     val noteDataList = noteDataFlowList.collectAsState(initial = emptyList())
     Scaffold(
         topBar = {
@@ -61,7 +61,7 @@ fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit) {
             ) {
                 LazyColumn {
                     items(noteDataList.value.size) { it: Int ->
-                        ShowCard(noteDataList.value[it])
+                        ShowCard(noteDataList.value[it],showNoteInfo)
                     }
                 }
                 AnimatedVisibility(visible = noteDataList.value.isEmpty()) {
@@ -73,11 +73,11 @@ fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit) {
 }
 
 @Composable
-fun ShowCard(noteData: NoteData) {
+fun ShowCard(noteData: NoteData, showNoteInfo: (NoteData) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .clickable { /* Null */ },
+            .clickable { showNoteInfo(noteData) },
         elevation = CardDefaults.cardElevation(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,

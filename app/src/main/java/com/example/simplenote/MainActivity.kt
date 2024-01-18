@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.simplenote.appScreens.AddNote
 import com.example.simplenote.appScreens.AppHome
 import com.example.simplenote.appScreens.AppScreen
+import com.example.simplenote.appScreens.ViewNote
 import com.example.simplenote.database.DatabaseEntity
 import com.example.simplenote.database.NoteData
 import com.example.simplenote.ui.theme.SimpleNoteTheme
@@ -35,10 +36,15 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = AppScreen.Home.name) {
                         composable(route = AppScreen.Home.name) {
                             AppHome(
-                                noteDataFlowList = viewModel.noteData
-                            ) {
-                                navController.navigate(AppScreen.AddNote.name)
-                            }
+                                noteDataFlowList = viewModel.noteData,
+                                navAddNote = {
+                                    navController.navigate(AppScreen.AddNote.name)
+                                },
+                                showNoteInfo = { noteData: NoteData ->
+                                    viewModel.noteToView(noteData = noteData)
+                                    navController.navigate(AppScreen.ViewNote.name)
+                                }
+                            )
                         }
                         composable(route = AppScreen.AddNote.name) {
                             AddNote(returnToHome = {
@@ -56,9 +62,20 @@ class MainActivity : ComponentActivity() {
                                 )
                                 navController.popBackStack(
                                     route = AppScreen.Home.name,
-                                    saveState = false,
                                     inclusive = false
                                 )
+                            }
+                        }
+                        composable(route = AppScreen.ViewNote.name) {
+                            ViewNote(
+                                noteData = viewModel.noteView!!,
+                                dismiss = {
+                                    navController.popBackStack(
+                                        route = AppScreen.Home.name,
+                                        inclusive = false
+                                    )
+                                }) {
+                                viewModel.deleteCurrentNote()
                             }
                         }
                     }
