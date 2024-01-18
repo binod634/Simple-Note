@@ -8,4 +8,14 @@ import androidx.room.RoomDatabase
 @Database(entities = [NoteData::class], version = 1)
 abstract class DatabaseEntity : RoomDatabase() {
     abstract fun databaseDao(): DatabaseDao
+
+    companion object {
+        @Volatile
+        var instance:DatabaseEntity? = null
+        fun getDatabase(context: Context):DatabaseEntity {
+            return instance?: synchronized(this) {
+                Room.databaseBuilder(context = context, DatabaseEntity::class.java, "noteDatabase").build().also { instance = it }
+            }
+        }
+    }
 }

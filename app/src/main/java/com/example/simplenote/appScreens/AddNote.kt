@@ -15,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNote(onDismiss: () -> Unit, onAdd: (String,String) -> Unit) {
+fun AddNote(returnToHome: () -> Unit, onAdd: (String, String) -> Unit) {
     val titleData = remember {
         mutableStateOf("")
     }
@@ -46,34 +45,38 @@ fun AddNote(onDismiss: () -> Unit, onAdd: (String,String) -> Unit) {
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                OutlinedTextField(
-                    value = titleData.value,
-                    onValueChange = { data -> titleData.value = data },
-                    label = {
-                        Text(text = "Title")
-                    })
-                OutlinedTextField(
-                    value = descriptionData.value,
-                    onValueChange = { data -> descriptionData.value = data },
-                    label = {
-                        Text(text = "Description")
-                    })
-                Row(
-                    horizontalArrangement = Arrangement.Center
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Button(onClick = { onDismiss() }) {
-                        Text(text = "Dismiss", color = MaterialTheme.colorScheme.onSurface)
-                    }
-                    Spacer(modifier = Modifier.width(32.dp))
-                    Button(onClick = { onAdd(titleData.value,descriptionData.value) }) {
-                        Text(text = "Add", color = MaterialTheme.colorScheme.onSurface)
+                    OutlinedTextField(
+                        value = titleData.value,
+                        onValueChange = { data -> titleData.value = data },
+                        label = {
+                            Text(text = "Title")
+                        })
+                    OutlinedTextField(
+                        value = descriptionData.value,
+                        onValueChange = { data -> descriptionData.value = data },
+                        label = {
+                            Text(text = "Description")
+                        })
+                    Row(
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(onClick = { returnToHome() }) {
+                            Text(text = "Dismiss", color = MaterialTheme.colorScheme.onSurface)
+                        }
+                        Spacer(modifier = Modifier.width(32.dp))
+                        Button(onClick = { onAdd(titleData.value, descriptionData.value) }) {
+                            Text(text = "Add", color = MaterialTheme.colorScheme.onSurface)
+                        }
                     }
                 }
             }
@@ -84,5 +87,5 @@ fun AddNote(onDismiss: () -> Unit, onAdd: (String,String) -> Unit) {
 @Preview(showBackground = false)
 @Composable
 fun ShowAddNote() {
-    AddNote(onDismiss = { /* Null */ }, onAdd = { title,description ->  /* null */ })
+    AddNote(returnToHome = { /* Null */ }, onAdd = { title, description ->  /* null */ })
 }

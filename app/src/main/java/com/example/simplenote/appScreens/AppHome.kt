@@ -1,5 +1,6 @@
 package com.example.simplenote.appScreens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,11 +58,14 @@ fun AppHome(noteDataFlowList: Flow<List<NoteData>>, navAddNote: () -> Unit) {
         Box(modifier = Modifier.padding(it)) {
             Box(
                 modifier = Modifier.padding(8.dp)
-            ){
+            ) {
                 LazyColumn {
-                    items(noteDataList.value.size) { it:Int ->
+                    items(noteDataList.value.size) { it: Int ->
                         ShowCard(noteDataList.value[it])
                     }
+                }
+                AnimatedVisibility(visible = noteDataList.value.isEmpty()) {
+                    EmptyNote()
                 }
             }
         }
@@ -103,5 +107,14 @@ fun ShowCard(noteData: NoteData) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun EmptyNote() {
+    Box(modifier = Modifier
+        .padding(32.dp)
+        .fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "No notes found.")
     }
 }

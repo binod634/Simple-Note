@@ -14,14 +14,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.simplenote.appScreens.AddNote
 import com.example.simplenote.appScreens.AppHome
 import com.example.simplenote.appScreens.AppScreen
-import com.example.simplenote.database.MyApplication
+import com.example.simplenote.database.DatabaseEntity
 import com.example.simplenote.database.NoteData
 import com.example.simplenote.ui.theme.SimpleNoteTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel by lazy { AppViewModel((application as MyApplication).db.databaseDao()) }
         super.onCreate(savedInstanceState)
+        val instance = DatabaseEntity.getDatabase(context = applicationContext)
+        val viewModel by lazy { AppViewModel(instance.databaseDao()) }
         installSplashScreen()
         setContent {
             SimpleNoteTheme {
@@ -35,12 +36,12 @@ class MainActivity : ComponentActivity() {
                         composable(route = AppScreen.Home.name) {
                             AppHome(
                                 noteDataFlowList = viewModel.noteData
-                            ){
+                            ) {
                                 navController.navigate(AppScreen.AddNote.name)
                             }
                         }
                         composable(route = AppScreen.AddNote.name) {
-                            AddNote(onDismiss = {
+                            AddNote(returnToHome = {
                                 navController.popBackStack(
                                     route = AppScreen.Home.name,
                                     saveState = false,
@@ -52,6 +53,11 @@ class MainActivity : ComponentActivity() {
                                         title = title,
                                         description = description
                                     )
+                                )
+                                navController.popBackStack(
+                                    route = AppScreen.Home.name,
+                                    saveState = false,
+                                    inclusive = false
                                 )
                             }
                         }
